@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { verifyToken, type JwtPayload } from "../../lib/jwt";
 import Image from "next/image";
-import {FadeUp} from "../components/FadeUp"; // 👈 Import komponen animasi
+import {FadeUp} from "../components/FadeUp"; 
 
 type Session = JwtPayload & { name?: string };
 type CookieStore = Awaited<ReturnType<typeof cookies>>;

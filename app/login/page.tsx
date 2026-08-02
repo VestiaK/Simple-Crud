@@ -20,7 +20,6 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       })
       if (!res.ok) throw new Error(await res.text())
-      // redirect or handle success
       window.location.href = '/home'
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)

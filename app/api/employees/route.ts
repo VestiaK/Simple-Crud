@@ -9,7 +9,6 @@ type AuthUser = {
 };
 
 function getAuthUser(req: NextRequest): AuthUser | null {
-  // Cara baru mengambil cookie di App Router
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
@@ -71,7 +70,6 @@ export async function POST(request: NextRequest) {
     );
   }
   try {
-    // Cara baru membaca body request
     const body = await request.json();
     const { nip, name, position, division, status } = body;
 

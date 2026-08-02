@@ -32,7 +32,7 @@ const initialForm: FormState = {
 
 export default function EmployeeDashboardPage() {
   const [employees, setEmployees] = useState<Employee[]>([])
-  const [userRole, setUserRole] = useState<string | null>(null) // State untuk menyimpan role
+  const [userRole, setUserRole] = useState<string | null>(null) 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -45,7 +45,6 @@ export default function EmployeeDashboardPage() {
   const [deleteTarget, setDeleteTarget] = useState<Employee | null>(null)
   const [deleting, setDeleting] = useState(false)
 
-  // Cek apakah user saat ini adalah ADMIN
   const isAdmin = userRole === 'ADMIN'
 
   async function readJsonSafe(res: Response) {
@@ -75,7 +74,7 @@ export default function EmployeeDashboardPage() {
       }
 
       setEmployees(data.employees || [])
-      setUserRole(data.role || 'USER') // Simpan role dari API
+      setUserRole(data.role || 'USER') 
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
       setError(message)

@@ -31,7 +31,6 @@ function canManageEmployee(role: string): boolean {
   return role === 'ADMIN' || role === 'USER'
 }
 
-// Di App Router, parameter dinamis [id] didapatkan dari argument kedua context.params
 export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ id: string }> | { id: string } }
@@ -40,7 +39,6 @@ export async function PUT(
   if (!user) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
   if (!canManageEmployee(user.role)) return NextResponse.json({ message: 'Forbidden' }, { status: 403 })
 
-  // Ambil ID dari params (dukungan untuk Next 14 & 15)
   const resolvedParams = await context.params;
   const id = resolvedParams.id;
 

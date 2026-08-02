@@ -1,24 +1,11 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../lib/prisma'
+import { NextResponse } from 'next/server'
+import { prisma } from '../../../../lib/prisma'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export async function GET() {
   try {
-    const count = await prisma.employee.count()
-
-    return res.status(200).json({
-      status: 'success',
-      message: 'Koneksi database Neon berhasil! 🚀',
-      employeeCount: count,
-    })
+    await prisma.$connect()
+    return NextResponse.json({ message: 'Database terhubung dengan sukses!' }, { status: 200 })
   } catch (error) {
-    console.error('Database connection error:', error)
-    return res.status(500).json({
-      status: 'error',
-      message: 'Gagal terhubung ke database Neon.',
-      error: String(error),
-    })
+    return NextResponse.json({ message: 'Koneksi database gagal', error: String(error) }, { status: 500 })
   }
 }

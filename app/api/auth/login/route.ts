@@ -5,7 +5,6 @@ import { signToken } from '../../../../lib/jwt'
 
 export async function POST(request: NextRequest) {
   try {
-    // Membaca body request JSON
     const body = await request.json()
     const { email, password } = body
 
@@ -27,14 +26,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Email atau password salah' }, { status: 401 })
     }
 
-    // Generate JWT Token
     const token = signToken({
       id: user.id,
       email: user.email,
       role: user.role,
     })
 
-    // Buat response JSON terlebih dahulu
     const response = NextResponse.json({
       message: 'Login berhasil',
       user: {
@@ -45,7 +42,6 @@ export async function POST(request: NextRequest) {
       },
     }, { status: 200 })
 
-    // Set cookie langsung menggunakan API bawaan NextResponse
     response.cookies.set({
       name: 'token',
       value: token,
