@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Tabel Admin
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("USER")
+}
+
+// Tabel Pegawai
+model Employee {
+  id        String   @id @default(cuid())
+  nip       String   @unique
+  name      String
+  position  String
+  division  String
+  status    String   @default("AKTIF")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
