@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import styles from '../styles/Auth.module.css'
 
 export default function SignUp() {
@@ -59,7 +60,7 @@ export default function SignUp() {
           </button>
 
           <p className={styles.signup}>
-            Sudah punya akun? <a href="/login" className={styles.link}>Masuk</a>
+            Sudah punya akun? <Link href="/login" className={styles.link}>Masuk</Link>
           </p>
         </form>
       </main>

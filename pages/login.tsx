@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Link from 'next/link'
 import styles from '../styles/Auth.module.css'
 
 export default function Login() {
@@ -19,7 +20,7 @@ export default function Login() {
       })
       if (!res.ok) throw new Error(await res.text())
       // redirect or handle success
-      window.location.href = '/dashboard'
+      window.location.href = '/home'
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err)
     setError(message || 'Pendaftaran gagal')
@@ -73,7 +74,7 @@ export default function Login() {
           </button>
 
           <p className={styles.signup}>
-            Belum punya akun? <a href="/signup" className={styles.link}>Daftar</a>
+            Belum punya akun? <Link href="/signup" className={styles.link}>Daftar</Link>
           </p>
         </form>
       </main>
