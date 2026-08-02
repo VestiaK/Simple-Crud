@@ -21,19 +21,19 @@ export default function Login() {
       })
       if (!res.ok) throw new Error(await res.text())
       window.location.href = '/home'
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err)
-    setError(message || 'Pendaftaran gagal')
-  } finally {
-    setLoading(false)
-  }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message || 'Login gagal, periksa kredensial Anda')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className={styles.page}>
       <main className={styles.card}>
         <header className={styles.header}>
-          <div className={styles.logo}>Perusahaan</div>
+          <div className={styles.logo}>PT Surveyor Indonesia</div>
           <h1 className={styles.title}>Masuk ke akun Anda</h1>
         </header>
 
@@ -66,7 +66,7 @@ export default function Login() {
             <label className={styles.checkboxLabel}>
               <input type="checkbox" /> Ingat saya
             </label>
-            <a className={styles.link} href="/forgot-password">Lupa kata sandi?</a>
+            <a className={styles.link} href="#">Lupa sandi?</a>
           </div>
 
           <button className={styles.button} disabled={loading}>

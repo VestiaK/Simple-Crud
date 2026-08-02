@@ -22,19 +22,19 @@ export default function SignUp() {
       })
       if (!res.ok) throw new Error(await res.text())
       window.location.href = '/login'
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err)
-    setError(message || 'Login gagal')
-  } finally {
-    setLoading(false)
-  }
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err)
+      setError(message || 'Pendaftaran gagal')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
     <div className={styles.page}>
       <main className={styles.card}>
         <header className={styles.header}>
-          <div className={styles.logo}>Perusahaan</div>
+          <div className={styles.logo}>PT Surveyor Indonesia</div>
           <h1 className={styles.title}>Buat akun baru</h1>
         </header>
 
@@ -57,7 +57,7 @@ export default function SignUp() {
           </label>
 
           <button className={styles.button} disabled={loading}>
-            {loading ? 'Memproses...' : 'Daftar'}
+            {loading ? 'Memproses...' : 'Daftar Sekarang'}
           </button>
 
           <p className={styles.signup}>
