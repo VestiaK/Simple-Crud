@@ -32,6 +32,7 @@ const initialForm: FormState = {
 
 export default function EmployeeDashboardPage() {
   const [employees, setEmployees] = useState<Employee[]>([])
+  const [userRole, setUserRole] = useState<string | null>(null) // State untuk menyimpan role
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -43,6 +44,9 @@ export default function EmployeeDashboardPage() {
 
   const [deleteTarget, setDeleteTarget] = useState<Employee | null>(null)
   const [deleting, setDeleting] = useState(false)
+
+  // Cek apakah user saat ini adalah ADMIN
+  const isAdmin = userRole === 'ADMIN'
 
   async function readJsonSafe(res: Response) {
     try {
@@ -71,6 +75,7 @@ export default function EmployeeDashboardPage() {
       }
 
       setEmployees(data.employees || [])
+      setUserRole(data.role || 'USER') // Simpan role dari API
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
       setError(message)
@@ -199,13 +204,16 @@ export default function EmployeeDashboardPage() {
             <Link href="/home" className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-white">
               Kembali ke Home
             </Link>
-            <button
-              type="button"
-              onClick={openCreate}
-              className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
-            >
-              + Tambah Karyawan
-            </button>
+            {/* Tombol Tambah hanya dirender jika ADMIN */}
+            {isAdmin && (
+              <button
+                type="button"
+                onClick={openCreate}
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+              >
+                + Tambah Karyawan
+              </button>
+            )}
           </div>
         </header>
 
@@ -223,19 +231,20 @@ export default function EmployeeDashboardPage() {
                   <th className="px-4 py-3 font-semibold">Position</th>
                   <th className="px-4 py-3 font-semibold">Division</th>
                   <th className="px-4 py-3 font-semibold">Status</th>
-                  <th className="px-4 py-3 font-semibold text-right">Aksi</th>
+                  {/* Kolom Aksi hanya dirender jika ADMIN */}
+                  {isAdmin && <th className="px-4 py-3 font-semibold text-right">Aksi</th>}
                 </tr>
               </thead>
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
+                    <td colSpan={isAdmin ? 6 : 5} className="px-4 py-10 text-center text-slate-500">
                       Memuat data karyawan...
                     </td>
                   </tr>
                 ) : employees.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-10 text-center text-slate-500">
+                    <td colSpan={isAdmin ? 6 : 5} className="px-4 py-10 text-center text-slate-500">
                       Belum ada data karyawan.
                     </td>
                   </tr>
@@ -251,24 +260,27 @@ export default function EmployeeDashboardPage() {
                           {employee.status}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right">
-                        <div className="flex justify-end gap-2">
-                          <button
-                            type="button"
-                            onClick={() => openEdit(employee)}
-                            className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                          >
-                            Update
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setDeleteTarget(employee)}
-                            className="rounded-md border border-rose-300 px-3 py-1.5 text-xs font-medium text-rose-700 hover:bg-rose-50"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
+                      {/* Sel Aksi hanya dirender jika ADMIN */}
+                      {isAdmin && (
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => openEdit(employee)}
+                              className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                            >
+                              Update
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setDeleteTarget(employee)}
+                              className="rounded-md border border-rose-300 px-3 py-1.5 text-xs font-medium text-rose-700 hover:bg-rose-50"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))
                 )}
@@ -278,7 +290,7 @@ export default function EmployeeDashboardPage() {
         </section>
       </div>
 
-      {isFormOpen ? (
+      {isFormOpen && isAdmin ? (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-slate-900/45 p-4">
           <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl">
             <h2 className="text-xl font-semibold text-slate-900">{title}</h2>
@@ -360,7 +372,7 @@ export default function EmployeeDashboardPage() {
         </div>
       ) : null}
 
-      {deleteTarget ? (
+      {deleteTarget && isAdmin ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/45 p-4">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
             <h2 className="text-xl font-semibold text-slate-900">Hapus Karyawan</h2>

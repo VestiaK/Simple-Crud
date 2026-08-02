@@ -1,18 +1,15 @@
-// pages/api/auth/signup.ts
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { prisma } from '../../../lib/prisma'
+import { prisma } from '../../../../lib/prisma'
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
-  }
-
+export async function POST(request: NextRequest) {
   try {
-    const { name, email, password } = req.body
+    // Cara baru baca input body di App Router
+    const body = await request.json()
+    const { name, email, password } = body
 
     if (!name || !email || !password) {
-      return res.status(400).json({ message: 'Nama, email, dan password wajib diisi' })
+      return NextResponse.json({ message: 'Nama, email, dan password wajib diisi' }, { status: 400 })
     }
 
     const existingUser = await prisma.user.findUnique({
@@ -20,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
 
     if (existingUser) {
-      return res.status(409).json({ message: 'Email sudah terdaftar' })
+      return NextResponse.json({ message: 'Email sudah terdaftar' }, { status: 409 })
     }
 
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -30,21 +27,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         name,
         email,
         password: hashedPassword,
+        role: 'USER',
       },
     })
 
-    return res.status(201).json({
+    return NextResponse.json({
       message: 'Signup berhasil',
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
       },
-    })
+    }, { status: 201 })
+    
   } catch (error) {
-    return res.status(500).json({
+    return NextResponse.json({
       message: 'Gagal signup',
       error: String(error),
-    })
+    }, { status: 500 })
   }
 }
