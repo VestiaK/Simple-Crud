@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import styles from '../styles/Auth.module.css'
 
 export default function Login() {
@@ -23,7 +24,7 @@ export default function Login() {
       window.location.href = '/home'
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      setError(message || 'Login gagal, periksa kredensial Anda')
+      setError(message || 'Login failed, please check your credentials')
     } finally {
       setLoading(false)
     }
@@ -33,8 +34,18 @@ export default function Login() {
     <div className={styles.page}>
       <main className={styles.card}>
         <header className={styles.header}>
-          <div className={styles.logo}>PT Surveyor Indonesia</div>
-          <h1 className={styles.title}>Masuk ke akun Anda</h1>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
+            <Image 
+              src="/images/logo.png" 
+              alt="Logo" 
+              width={56} 
+              height={56} 
+              priority 
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
+          <div className={styles.logo} style={{ color: '#2596be' }}>PT Surveyor Indonesia</div>
+          <h1 className={styles.title}>Sign in to your account</h1>
         </header>
 
         <form onSubmit={handleSubmit} className={styles.form}>
@@ -52,7 +63,7 @@ export default function Login() {
           </label>
 
           <label className={styles.label}>
-            Kata sandi
+            Password
             <input
               type="password"
               required
@@ -64,17 +75,17 @@ export default function Login() {
 
           <div className={styles.row}>
             <label className={styles.checkboxLabel}>
-              <input type="checkbox" /> Ingat saya
+              <input type="checkbox" /> Remember me
             </label>
-            <a className={styles.link} href="#">Lupa sandi?</a>
+            <a className={styles.link} href="#" style={{ color: '#2596be' }}>Forgot password?</a>
           </div>
 
-          <button className={styles.button} disabled={loading}>
-            {loading ? 'Memproses...' : 'Masuk'}
+          <button className={styles.button} disabled={loading} style={{ backgroundColor: '#2596be', color: '#ffffff' }}>
+            {loading ? 'Processing...' : 'Sign In'}
           </button>
 
           <p className={styles.signup}>
-            Belum punya akun? <Link href="/signup" className={styles.link}>Daftar</Link>
+            Don&apost have an account? <Link href="/signup" className={styles.link} style={{ color: '#2596be' }}>Sign Up</Link>
           </p>
         </form>
       </main>

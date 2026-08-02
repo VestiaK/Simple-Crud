@@ -24,7 +24,7 @@ export default function SignUp() {
       window.location.href = '/login'
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      setError(message || 'Pendaftaran gagal')
+      setError(message || 'Registration failed')
     } finally {
       setLoading(false)
     }
@@ -34,15 +34,15 @@ export default function SignUp() {
     <div className={styles.page}>
       <main className={styles.card}>
         <header className={styles.header}>
-          <div className={styles.logo}>PT Surveyor Indonesia</div>
-          <h1 className={styles.title}>Buat akun baru</h1>
+          <div className={styles.logo} style={{ color: '#2596be' }}>PT Surveyor Indonesia</div>
+          <h1 className={styles.title}>Create a new account</h1>
         </header>
 
         <form onSubmit={handleSubmit} className={styles.form}>
           {error && <div className={styles.error}>{error}</div>}
 
           <label className={styles.label}>
-            Nama lengkap
+            Full name
             <input value={name} onChange={(e) => setName(e.target.value)} className={styles.input} required />
           </label>
 
@@ -52,16 +52,16 @@ export default function SignUp() {
           </label>
 
           <label className={styles.label}>
-            Kata sandi
+            Password
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className={styles.input} required />
           </label>
 
-          <button className={styles.button} disabled={loading}>
-            {loading ? 'Memproses...' : 'Daftar Sekarang'}
+          <button className={styles.button} disabled={loading} style={{ backgroundColor: '#2596be', color: '#ffffff' }}>
+            {loading ? 'Processing...' : 'Sign Up Now'}
           </button>
 
           <p className={styles.signup}>
-            Sudah punya akun? <Link href="/login" className={styles.link}>Masuk</Link>
+            Already have an account? <Link href="/login" className={styles.link} style={{ color: '#2596be' }}>Sign In</Link>
           </p>
         </form>
       </main>

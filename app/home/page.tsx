@@ -103,7 +103,7 @@ export default async function HomePage() {
               <Link href="#about" className="text-sm font-medium text-slate-600 transition hover:text-[#2596be]">About Us</Link>
               <Link href="#services" className="text-sm font-medium text-slate-600 transition hover:text-[#2596be]">Services</Link>
               {canSeeEmployeeMenu ? (
-                <Link href="/dashboard/karyawan" className="text-sm font-medium text-slate-600 transition hover:text-[#2596be]">Karyawan</Link>
+                <Link href="/dashboard/employees" className="text-sm font-medium text-slate-600 transition hover:text-[#2596be]">Employees</Link>
               ) : null}
             </nav>
 
@@ -112,7 +112,7 @@ export default async function HomePage() {
                 <>
                   <div className="hidden items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-600 shadow-sm md:flex">
                     <span className="inline-flex h-2 w-2 rounded-full bg-[#2596be]" />
-                    Masuk sebagai <span className="font-semibold text-slate-900">{displayName}</span>
+                    Log in as <span className="font-semibold text-slate-900">{displayName}</span>
                   </div>
                   <form action={async () => {
                     "use server";
@@ -232,16 +232,16 @@ export default async function HomePage() {
           </div>
         </section>
 
-        {/* SECTION 4: KARYAWAN ACCESS */}
+        {/* SECTION 4: Access employees */}
         {canSeeEmployeeMenu ? (
           <FadeUp delay={200}>
             <section id="employees" className="mt-12 rounded-[30px] border border-white/40 bg-gradient-to-br from-[#2596be] to-[#1a7393] px-8 py-7 text-white shadow-lg">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/80">Akses Karyawan</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-white">Menu ini hanya tampil untuk user dan admin</h2>
+                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-white/80">Access employees</p>
+                  <h2 className="mt-2 text-2xl font-semibold text-white">This menu is visible only to Users and Admins</h2>
                 </div>
-                <Link href="/dashboard/karyawan" className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#2596be] shadow-sm transition hover:bg-slate-50">
+                <Link href="/dashboard/employees" className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[#2596be] shadow-sm transition hover:bg-slate-50">
                   Buka dashboard akses <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
